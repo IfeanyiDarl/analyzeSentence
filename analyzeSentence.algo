@@ -1,0 +1,37 @@
+ALGORITHM AnalyzeSentence
+VARIABLES
+    char : CHARACTER
+    length_count : INTEGER := 0
+    word_count : INTEGER := 1
+    vowel_count : INTEGER := 0
+
+BEGIN
+    // Read the first character to start the loop
+    Read(char)
+    
+    WHILE char <> '.' DO
+        // 1. Increment character length counter
+        length_count := length_count + 1
+        
+        // 2. Check for spaces to count words
+        IF char = ' ' THEN
+            word_count := word_count + 1
+        END_IF
+        
+        // 3. Check if character is a vowel (case-insensitive)
+        IF char IN ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'] THEN
+            vowel_count := vowel_count + 1
+        END_IF
+        
+        // Read the next character in the sentence
+        Read(char)
+    END_WHILE
+    
+    // Include the final period '.' in the sentence length
+    length_count := length_count + 1
+    
+    // Output results
+    Write("Length of sentence: ", length_count)
+    Write("Number of words: ", word_count)
+    Write("Number of vowels: ", vowel_count)
+END
