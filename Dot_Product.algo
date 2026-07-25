@@ -1,0 +1,106 @@
+// Part 1: Solution Using a Procedure; the procedure uses pass-by-reference (VAR ps) so it can directly update the scalar output variable in memory.
+
+// Procedure to calculate dot product
+PROCEDURE dot_product(v1, v2 : ARRAY OF FLOAT, VAR ps : FLOAT, size : INTEGER)
+VARIABLES
+    i : INTEGER
+BEGIN
+    ps := 0.0
+    FOR i FROM 0 TO size - 1 DO
+        ps := ps + (v1[i] * v2[i])
+    END_FOR
+END_PROCEDURE
+
+// Main Algorithm
+ALGORITHM CheckOrthogonalityProcedure
+VARIABLES
+    v1, v2 : ARRAY OF FLOAT
+    ps : FLOAT
+    i, k, n, dim : INTEGER
+BEGIN
+    Write("Enter the number of vector pairs (n): ")
+    Read(n)
+    Write("Enter the dimension of the vectors (IR^dim): ")
+    Read(dim)
+
+    // Outer loop: process 'n' pairs of vectors
+    FOR k FROM 1 TO n DO
+        Write("--- Pair ", k, " ---")
+        
+        // Reading Vector 1
+        Write("Enter elements for Vector 1:")
+        FOR i FROM 0 TO dim - 1 DO
+            Read(v1[i])
+        END_FOR
+
+        // Reading Vector 2
+        Write("Enter elements for Vector 2:")
+        FOR i FROM 0 TO dim - 1 DO
+            Read(v2[i])
+        END_FOR
+
+        // Call procedure (ps is modified by reference)
+        dot_product(v1, v2, ps, dim)
+
+        // Check for orthogonality
+        IF ps = 0.0 THEN
+            Write("Vectors are orthogonal.")
+        ELSE
+            Write("Vectors are NOT orthogonal. (Dot product = ", ps, ")")
+        END_IF
+    END_FOR
+END
+
+// Part 2: Solution Using a Function; here, the calculation returns a scalar value directly, which is passed by value.
+
+// Function to calculate and return dot product
+FUNCTION dot_product(v1, v2 : ARRAY OF FLOAT, size : INTEGER) : FLOAT
+VARIABLES
+    i : INTEGER
+    local_ps : FLOAT := 0.0
+BEGIN
+    FOR i FROM 0 TO size - 1 DO
+        local_ps := local_ps + (v1[i] * v2[i])
+    END_FOR
+    RETURN local_ps
+END_FUNCTION
+
+// Main Algorithm
+ALGORITHM CheckOrthogonalityFunction
+VARIABLES
+    v1, v2 : ARRAY OF FLOAT
+    ps : FLOAT
+    i, k, n, dim : INTEGER
+BEGIN
+    Write("Enter the number of vector pairs (n): ")
+    Read(n)
+    Write("Enter the dimension of the vectors (IR^dim): ")
+    Read(dim)
+
+    // Outer loop: process 'n' pairs of vectors
+    FOR k FROM 1 TO n DO
+        Write("--- Pair ", k, " ---")
+        
+        // Reading Vector 1
+        Write("Enter elements for Vector 1:")
+        FOR i FROM 0 TO dim - 1 DO
+            Read(v1[i])
+        END_FOR
+
+        // Reading Vector 2
+        Write("Enter elements for Vector 2:")
+        FOR i FROM 0 TO dim - 1 DO
+            Read(v2[i])
+        END_FOR
+
+        // Call function and store returned result
+        ps := dot_product(v1, v2, dim)
+
+        // Check for orthogonality
+        IF ps = 0.0 THEN
+            Write("Vectors are orthogonal.")
+        ELSE
+            Write("Vectors are NOT orthogonal. (Dot product = ", ps, ")")
+        END_IF
+    END_FOR
+END
